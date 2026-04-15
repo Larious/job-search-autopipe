@@ -71,18 +71,21 @@ class BaseJobClient(ABC):
         except (ValueError, TypeError):
             return default
 
-    def _safe_date(self, value) -> Optional[str]:
-        """Safely parse a date string to ISO format."""
-        if value is None:
+    def _safe_date(self, value):
+        if not value:
             return None
-        if isinstance(value, (date, datetime)):
-            return value.isoformat()[:10]
-        for fmt in ("%Y-%m-%dT%H:%M:%SZ", "%Y-%m-%d", "%d/%m/%Y", "%Y-%m-%dT%H:%M:%S"):
-            try:
-                return datetime.strptime(str(value)[:19], fmt).date().isoformat()
-            except ValueError:
-                continue
-        return None
+        try:
+            from datetime import datetime
+            # Try ISO format first (Adzuna: 2026-03-28T10:00:00Z)
+            if 'T' in str(value):
+                return datetime.fromisoformat(str(value).replace('Z', '+00:00')).date()
+            # Try DD/MM/YYYY (Reed: 28/03/2026)
+            if '/' in str(value):
+                return datetime.strptime(str(value), '%d/%m/%Y').date()
+            # Try YYYY-MM-DD
+            return datetime.strptime(str(value), '%Y-%m-%d').date()
+        except Exception:
+            return None
 
     def _clean_html(self, text: str) -> str:
         """Strip HTML tags from description text."""
