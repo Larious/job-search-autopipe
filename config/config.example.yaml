@@ -1,0 +1,206 @@
+# ============================================================
+# Job Search AutoPipe — Configuration
+# ============================================================
+# Copy this to config.yaml and fill in your values.
+# NEVER commit config.yaml to version control.
+# ============================================================
+
+# --- Job Board API Keys ---
+apis:
+  adzuna:
+    app_id: "YOUR_ADZUNA_APP_ID"           # Free at https://developer.adzuna.com
+    app_key: "YOUR_ADZUNA_APP_KEY"
+    base_url: "https://api.adzuna.com/v1/api/jobs"
+    country: "gb"                           # gb for UK jobs
+    results_per_page: 50
+
+  reed:
+    api_key: "YOUR_REED_API_KEY"           # Free at https://www.reed.co.uk/developers
+    base_url: "https://www.reed.co.uk/api/1.0"
+    results_per_page: 100
+
+  the_muse:
+    base_url: "https://www.themuse.com/api/public"  # No key needed
+    results_per_page: 20
+
+# --- Search Parameters ---
+search:
+  keywords:
+    primary:
+      - "data engineer"
+      - "data engineering"
+      - "analytics engineer"
+    secondary:
+      - "ETL developer"
+      - "data platform engineer"
+      - "pipeline engineer"
+
+  location:
+    city: "Glasgow"
+    radius_miles: 30
+    include_remote: true
+
+  filters:
+    min_salary: 35000
+    max_salary: 90000
+    contract_types:
+      - "permanent"
+      - "contract"
+    exclude_agencies: false
+    posted_within_days: 1          # Only fetch new postings
+
+# --- Role Classification ---
+classifier:
+  # Minimum score (0-100) to pass as a genuine data engineering role
+  min_role_score: 60
+
+  # Keywords that INCREASE the role score
+  positive_signals:
+    high_weight:                   # +15 points each
+      - "airflow"
+      - "spark"
+      - "kafka"
+      - "dbt"
+      - "snowflake"
+      - "databricks"
+      - "data pipeline"
+      - "etl"
+      - "elt"
+      - "data warehouse"
+      - "data lake"
+    medium_weight:                 # +8 points each
+      - "python"
+      - "sql"
+      - "aws"
+      - "azure"
+      - "gcp"
+      - "docker"
+      - "kubernetes"
+      - "terraform"
+      - "postgresql"
+      - "redshift"
+      - "bigquery"
+    low_weight:                    # +3 points each
+      - "ci/cd"
+      - "git"
+      - "linux"
+      - "api"
+      - "json"
+      - "parquet"
+      - "data modelling"
+
+  # Keywords that DECREASE the role score
+  negative_signals:
+    high_penalty:                  # -20 points each
+      - "data entry"
+      - "customer service"
+      - "receptionist"
+      - "admin support"
+    medium_penalty:                # -10 points each
+      - "helpdesk"
+      - "support engineer"
+      - "manual testing"
+      - "data entry clerk"
+
+# --- Skills Match Scoring ---
+skills_profile:
+  # Your actual skills — adjust weights based on proficiency
+  tools:
+    expert:                        # Weight: 1.0
+      - "python"
+      - "sql"
+      - "postgresql"
+      - "dbt"
+      - "airflow"
+      - "docker"
+      - "great expectations"
+      - "git"
+    proficient:                    # Weight: 0.7
+      - "spark"
+      - "kafka"
+      - "snowflake"
+      - "aws"
+      - "playwright"
+      - "pandas"
+      - "terraform"
+    familiar:                      # Weight: 0.4
+      - "databricks"
+      - "azure"
+      - "gcp"
+      - "kubernetes"
+      - "redshift"
+      - "bigquery"
+
+  experience_summary: |
+    Data engineer with hands-on experience building production data pipelines.
+    Built Glasgow Traders AutoPipe: an end-to-end pipeline using Google Places API,
+    Playwright scraping, PostgreSQL medallion architecture, dbt Core, Great Expectations,
+    Apache Airflow, Docker, and Slack webhooks. Demonstrated skills in API integration,
+    change detection (SHA-256 delta sync), data quality gates, and pipeline orchestration.
+
+# --- Notifications ---
+notifications:
+  # Which channel to use: "slack", "telegram", or "both"
+  preferred_channel: "telegram"
+
+  slack:
+    webhook_url: "YOUR_SLACK_WEBHOOK_URL"
+    channel: "#job-alerts"
+
+  telegram:
+    # 1. Message @BotFather on Telegram → /newbot → copy the token
+    # 2. Create a group or use your own chat
+    # 3. Get chat_id: curl https://api.telegram.org/bot<TOKEN>/getUpdates
+    bot_token: "YOUR_TELEGRAM_BOT_TOKEN"
+    chat_id: "YOUR_CHAT_ID"
+    # Webhook (optional but recommended — enables /flag, /cover, /stats commands)
+    webhook:
+      enabled: true
+      # Your public URL (use ngrok for dev: ngrok http 8443)
+      public_url: "https://your-domain.com/webhook"
+      port: 8443
+
+  email:
+    enabled: false
+    smtp_host: "smtp.gmail.com"
+    smtp_port: 587
+    sender: "your-email@gmail.com"
+    recipient: "your-email@gmail.com"
+
+# --- Cover Letter Generation ---
+cover_letter:
+  # Options: "claude_api", "ollama", "template_only"
+  engine: "claude_api"
+
+  claude_api:
+    api_key: "YOUR_ANTHROPIC_API_KEY"      # From https://console.anthropic.com
+    model: "claude-sonnet-4-20250514"
+
+  ollama:
+    model: "llama3"
+    base_url: "http://localhost:11434"
+
+  your_details:
+    full_name: "YOUR NAME"
+    email: "your-email@example.com"
+    phone: "+44 XXXX XXXXXX"
+    location: "Glasgow, Scotland"
+    linkedin: "https://linkedin.com/in/your-profile"
+    github: "https://github.com/your-username"
+    portfolio_url: "https://glasgowtraders.com"
+
+# --- Database ---
+database:
+  host: "localhost"
+  port: 5432
+  name: "job_search_autopipe"
+  user: "autopipe"
+  password: "YOUR_DB_PASSWORD"
+
+# --- Pipeline Settings ---
+pipeline:
+  schedule: "0 7 * * *"            # Cron: 7 AM daily
+  retry_attempts: 3
+  retry_delay_minutes: 5
+  max_jobs_per_digest: 20
+  dedup_lookback_days: 30

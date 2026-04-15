@@ -1,0 +1,18 @@
+# Job Search AutoPipe — Dependencies
+# Install: pip install -r requirements.txt
+
+# --- Core Pipeline ---
+apache-airflow==2.8.1
+psycopg2-binary==2.9.9
+pyyaml==6.0.1
+requests==2.31.0
+
+# --- Data Transformation ---
+dbt-core==1.7.4
+dbt-postgres==1.7.4
+
+# --- Data Quality ---
+great-expectations==0.18.8
+
+# --- Utilities ---
+python-dotenv==1.0.0

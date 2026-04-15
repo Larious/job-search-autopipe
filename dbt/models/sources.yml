@@ -1,0 +1,38 @@
+version: 2
+
+sources:
+  - name: bronze
+    schema: bronze
+    tables:
+      - name: raw_job_postings
+        description: "Raw job postings as ingested from APIs"
+        columns:
+          - name: id
+            tests: [unique, not_null]
+          - name: source
+            tests: [not_null, accepted_values: {values: ['adzuna', 'reed', 'the_muse']}]
+          - name: content_hash
+            tests: [not_null]
+
+  - name: silver
+    schema: silver
+    tables:
+      - name: classified_jobs
+        description: "Classified and scored job postings"
+        columns:
+          - name: id
+            tests: [unique, not_null]
+          - name: bronze_id
+            tests: [not_null, relationships: {to: source('bronze', 'raw_job_postings'), field: id}]
+          - name: role_score
+            tests: [not_null]
+          - name: overall_score
+            tests: [not_null]
+
+  - name: gold
+    schema: gold
+    tables:
+      - name: daily_digest
+        description: "Daily ranked job digest entries"
+      - name: application_tracker
+        description: "Application status tracking"

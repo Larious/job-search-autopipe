@@ -1,0 +1,112 @@
+# ============================================================
+# Your Skills Profile — Used for JD Matching & CV Tailoring
+# ============================================================
+# Update this to reflect YOUR actual skills and experience.
+# The pipeline uses this to score how well each job matches you.
+# ============================================================
+
+personal:
+  name: "YOUR NAME"
+  title: "Data Engineer"
+  location: "Glasgow, Scotland"
+  years_experience: 1  # Adjust to your actual experience
+
+# --- Technical Skills (grouped by proficiency) ---
+technical_skills:
+  languages:
+    expert: ["Python", "SQL"]
+    proficient: ["Bash"]
+    familiar: ["Scala", "Java"]
+
+  databases:
+    expert: ["PostgreSQL"]
+    proficient: ["Snowflake"]
+    familiar: ["BigQuery", "Redshift", "MongoDB"]
+
+  orchestration:
+    expert: ["Apache Airflow"]
+    proficient: []
+    familiar: ["Prefect", "Dagster"]
+
+  transformation:
+    expert: ["dbt Core"]
+    proficient: ["pandas", "PySpark"]
+    familiar: ["Databricks"]
+
+  streaming:
+    proficient: ["Apache Kafka"]
+    familiar: ["Kafka Connect", "Flink"]
+
+  cloud:
+    proficient: ["AWS (S3, EC2, RDS)"]
+    familiar: ["Azure Data Factory", "GCP"]
+
+  devops:
+    expert: ["Docker", "Docker Compose", "Git"]
+    proficient: ["CI/CD (GitHub Actions)"]
+    familiar: ["Kubernetes", "Terraform"]
+
+  data_quality:
+    expert: ["Great Expectations"]
+    proficient: ["dbt tests"]
+    familiar: ["Soda"]
+
+  other:
+    proficient: ["REST APIs", "Web Scraping (Playwright)", "WordPress REST API"]
+    familiar: ["GraphQL"]
+
+# --- Portfolio Projects ---
+projects:
+  - name: "Glasgow Traders AutoPipe"
+    description: >
+      End-to-end data pipeline that scrapes Glasgow business listings and
+      publishes them to a WordPress directory site. Features medallion
+      architecture, SHA-256 change detection, Business Health Score quality
+      gate, and closed business detector.
+    technologies:
+      - "Google Places API"
+      - "Playwright"
+      - "PostgreSQL"
+      - "dbt Core"
+      - "Great Expectations"
+      - "Apache Airflow"
+      - "Docker"
+      - "Slack Webhooks"
+      - "WordPress REST API"
+
+  - name: "Job Search AutoPipe"
+    description: >
+      Automated job discovery pipeline that ingests from multiple job APIs,
+      applies NLP-based role classification and skills matching, delivers
+      daily ranked digests, and generates tailored cover letters.
+    technologies:
+      - "Adzuna API"
+      - "Reed API"
+      - "PostgreSQL"
+      - "dbt Core"
+      - "Great Expectations"
+      - "Apache Airflow"
+      - "Docker"
+      - "Slack Webhooks"
+      - "Claude API"
+
+# --- Soft Skills & Preferences ---
+soft_skills:
+  - "Problem solving"
+  - "Self-directed learning"
+  - "Technical writing"
+  - "Pipeline thinking"
+  - "Attention to data quality"
+
+# --- What you're looking for ---
+preferences:
+  role_types: ["Data Engineer", "Analytics Engineer", "Data Platform Engineer"]
+  industries_preferred: ["Tech", "Finance", "Healthcare", "Energy"]
+  deal_breakers:
+    - "Requires 5+ years experience"
+    - "Requires security clearance"
+  nice_to_have:
+    - "Remote or hybrid"
+    - "Modern data stack"
+    - "dbt/Airflow in use"
+    - "Mentorship culture"
