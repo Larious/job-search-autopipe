@@ -149,7 +149,18 @@ def task_classify(**context):
         url = raw.get("redirect_url", raw.get("jobUrl", ""))
         salary_min = raw.get("salary_min", raw.get("minimumSalary"))
         salary_max = raw.get("salary_max", raw.get("maximumSalary"))
-        posted_date = raw.get("created", raw.get("date"))
+        posted_date_raw = raw.get("created", raw.get("date"))
+        posted_date = None
+        if posted_date_raw:
+            try:
+                if 'T' in str(posted_date_raw):
+                    posted_date = datetime.fromisoformat(str(posted_date_raw).replace('Z', '+00:00')).date()
+                elif '/' in str(posted_date_raw):
+                    posted_date = datetime.strptime(str(posted_date_raw), '%d/%m/%Y').date()
+                else:
+                    posted_date = datetime.strptime(str(posted_date_raw), '%Y-%m-%d').date()
+            except (ValueError, TypeError):
+                posted_date = None
 
         # Clean description
         import re
