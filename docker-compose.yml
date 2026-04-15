@@ -51,7 +51,7 @@ services:
       POSTGRES_USER: autopipe
       POSTGRES_PASSWORD: autopipe_password
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - pipeline_data:/var/lib/postgresql/data
     healthcheck:
@@ -126,21 +126,11 @@ services:
   schema-init:
     image: python:3.11-slim
     container_name: schema-init
-    command: >
-      bash -c "pip install psycopg2-binary pyyaml --quiet &&
-               python -c \"
-import sys; sys.path.insert(0, '/opt/autopipe')
-from src.utils.database import Database
-db = Database({
-    'host': 'pipeline-db',
-    'port': 5432,
-    'name': 'job_search_autopipe',
-    'user': 'autopipe',
-    'password': 'autopipe_password',
-})
-db.initialize_schema()
-print('Schema initialized successfully!')
-\""
+    entrypoint: ["/bin/bash", "-c"]
+    command:
+      - |
+        pip install psycopg2-binary pyyaml --quiet
+        python /opt/autopipe/src/utils/init_schema.py
     volumes:
       - ./src:/opt/autopipe/src
     depends_on:
