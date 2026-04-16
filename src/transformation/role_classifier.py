@@ -98,6 +98,15 @@ TITLE_NEGATIVE = {
     "receptionist": -30,
     "admin": -20,
     "clerk": -25,
+    "bi developer": -25,
+    "bi analyst": -25,
+    "sql developer": -20,
+    "software engineer": -20,
+    "business analyst": -25,
+    "business intelligence": -20,
+    "devops engineer": -20,
+    "net developer": -25,
+    "java developer": -25,
     "sales": -20,
 }
 
