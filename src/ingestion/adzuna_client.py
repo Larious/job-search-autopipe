@@ -72,12 +72,13 @@ class AdzunaClient(BaseJobClient):
             "app_key": self.app_key,
             "results_per_page": min(max_results, 50),
             "what": keyword,
-            "where": location,
-            "distance": radius_miles,
             "max_days_old": posted_within_days,
             "sort_by": "date",
             "content-type": "application/json",
         }
+        if location:
+            params["where"] = location
+            params["distance"] = radius_miles
 
         url = f"{self.base_url}/{self.country}/search/1?{urlencode(params)}"
         req = Request(url, headers={"User-Agent": "JobSearchAutoPipe/1.0"})
