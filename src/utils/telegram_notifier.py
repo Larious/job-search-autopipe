@@ -116,7 +116,7 @@ class TelegramNotifier:
                 f"\n*#{job['rank']}* {score_icon} *{self._escape_md(job['title'])}*\n"
                 f"🏢 {self._escape_md(job['company'])} · 📍 {self._escape_md(job['location'])}\n"
                 f"Match: *{job['overall_score']:.0f}%* · {skills}\n"
-                f"[View & Apply]({job['url']})"
+                f"ID: `{job.get('id', '')}` · [View & Apply]({job['url']})" 
             )
             job_blocks.append(block)
 

@@ -91,8 +91,9 @@ TITLE_POSITIVE = {
 
 TITLE_NEGATIVE = {
     "data entry": -30,
-    "data analyst": -10,     # Could be borderline, light penalty
-    "data scientist": -8,    # Could be borderline
+    "data analyst": -25,     # Not a DE role
+    "lead data analyst": -25,
+    "data scientist": -20,    # Not a DE role
     "support": -15,
     "customer": -20,
     "receptionist": -30,

@@ -295,6 +295,7 @@ def task_send_digest(**context):
 
             digest_jobs.append({
                 "rank": rank,
+                "id": job["id"],
                 "title": job["title"],
                 "company": job["company"],
                 "location": job["location"],
