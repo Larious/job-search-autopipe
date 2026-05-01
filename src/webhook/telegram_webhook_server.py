@@ -392,6 +392,8 @@ class WebhookHandler(BaseHTTPRequestHandler):
 
             if new_status == "applied" and row["status"] in ("new", "reviewing"):
                 set_parts.append("applied_at = NOW()")
+                set_parts.append("follow_up_date = (NOW() + INTERVAL '7 days')::date")
+                set_parts.append("follow_up_sent = FALSE")
 
             if new_status in ("rejected", "ghosted") and reason:
                 set_parts.append("rejection_reason = %s")

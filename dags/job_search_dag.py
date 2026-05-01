@@ -331,6 +331,49 @@ def task_send_digest(**context):
     logger.info(f"Digest sent with {len(candidates)} jobs")
 
 
+
+def task_followup_check(**context):
+    """Check for overdue follow-ups and notify via Telegram."""
+    config = PipelineConfig.from_yaml()
+    db = Database(config.database)
+
+    with db.cursor() as cur:
+        cur.execute("""
+            SELECT a.id, a.silver_id, s.title, s.company, a.applied_at, a.follow_up_date
+            FROM gold.application_tracker a
+            JOIN silver.classified_jobs s ON s.id = a.silver_id
+            WHERE a.status = 'applied'
+              AND a.follow_up_date <= CURRENT_DATE
+              AND a.follow_up_sent = FALSE;
+        """)
+        overdue = cur.fetchall()
+
+    if not overdue:
+        logger.info("No follow-ups due today.")
+        return
+
+    lines = ["⏰ *Follow-up Reminders*\n"]
+    for row in overdue:
+        days = (datetime.now().date() - row["applied_at"].date()).days
+        lines.append(
+            f"📋 *{row['title']}* @ {row['company']}\n"
+            f"   Applied {days} days ago — time to follow up!\n"
+            f"   `/update {row['silver_id']} interviewing` or `/update {row['silver_id']} ghosted`"
+        )
+
+    notifier = create_notifier(config.notifications)
+    if notifier:
+        notifier._send("\n\n".join(lines))
+
+    # Mark as sent
+    ids = [r["id"] for r in overdue]
+    with db.cursor() as cur:
+        cur.execute(
+            "UPDATE gold.application_tracker SET follow_up_sent = TRUE WHERE id = ANY(%s);",
+            (ids,)
+        )
+    logger.info(f"Follow-up reminders sent for {len(overdue)} applications.")
+
 # ── DAG Definition ─────────────────────────────────────────────────
 
 with DAG(
@@ -369,7 +412,11 @@ with DAG(
         provide_context=True,
     )
 
+    followup = PythonOperator(
+        task_id="followup_check",
+        python_callable=task_followup_check,
+    )
     end = DummyOperator(task_id="end")
 
     # Pipeline flow
-    start >> ingest >> classify >> quality >> digest >> end
+    start >> ingest >> classify >> quality >> digest >> followup >> end
