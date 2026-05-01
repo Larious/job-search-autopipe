@@ -93,7 +93,7 @@ def create_notifier(notifications_config: dict) -> Optional[MultiNotifier]:
             chat_id = tg_cfg.get("chat_id", "")
             if token and chat_id and not token.startswith("YOUR_"):
                 from .telegram_notifier import TelegramNotifier
-                notifiers.append(TelegramNotifier(token, chat_id))
+                notifiers.append(TelegramNotifier(token, chat_id, config=notifications_config))
                 logger.info("Telegram notifier initialized")
             else:
                 logger.warning("Telegram configured but missing bot_token or chat_id")

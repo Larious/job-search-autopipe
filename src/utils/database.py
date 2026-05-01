@@ -260,7 +260,7 @@ class Database:
             LEFT JOIN gold.daily_digest d ON d.silver_id = s.id
             WHERE s.is_genuine_de_role = TRUE
               AND s.is_duplicate = FALSE
-              AND d.id IS NULL
+              AND (d.id IS NULL OR d.digest_date < CURRENT_DATE)
             ORDER BY s.overall_score DESC
             LIMIT %s;
         """

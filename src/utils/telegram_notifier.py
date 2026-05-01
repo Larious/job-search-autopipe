@@ -27,9 +27,10 @@ class TelegramNotifier:
 
     BASE_URL = "https://api.telegram.org/bot{token}"
 
-    def __init__(self, bot_token: str, chat_id: str):
+    def __init__(self, bot_token: str, chat_id: str, config: dict = None):
         self.bot_token = bot_token
         self.chat_id = chat_id
+        self.config = config or {}
         self.api_url = self.BASE_URL.format(token=bot_token)
 
     def _send(self, text: str, parse_mode: str = "Markdown") -> bool:
@@ -108,7 +109,7 @@ class TelegramNotifier:
         )
 
         job_blocks = []
-        max_jobs = self.config.get("digest", {}).get("max_jobs_per_digest", 20)
+        max_jobs = (self.config or {}).get("digest", {}).get("max_jobs_per_digest", 20)
         for job in jobs[:max_jobs]:
             score_icon = "🟢" if job["overall_score"] >= 80 else "🟡" if job["overall_score"] >= 60 else "🟠"
             skills = ", ".join(job.get("matched_skills", [])[:4])
