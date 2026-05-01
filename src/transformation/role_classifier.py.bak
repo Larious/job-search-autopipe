@@ -2,16 +2,22 @@
 Role Classifier for Job Search AutoPipe.
 
 Uses keyword-weighted NLP scoring to determine whether a job posting
-is genuinely a data engineering role vs. a mismatch (data entry,
+is genuinely a data engineering role vs. a mismatch (data entry, 
 data analyst, support engineer, etc.).
+
+This is a key differentiator for the portfolio — it demonstrates
+understanding of data quality and intelligent filtering.
 """
 
 import re
 import logging
+from collections import Counter
 from typing import Tuple
 
 logger = logging.getLogger(__name__)
 
+
+# ── Default Signal Weights ─────────────────────────────────────────
 
 DEFAULT_POSITIVE_SIGNALS = {
     "high_weight": {
@@ -22,7 +28,6 @@ DEFAULT_POSITIVE_SIGNALS = {
             "data lake", "data lakehouse", "data platform", "data mesh",
             "medallion", "bronze", "silver", "gold", "orchestration",
             "batch processing", "stream processing", "data modelling",
-            "delta lake", "apache iceberg", "data ingestion",
         ]
     },
     "medium_weight": {
@@ -31,7 +36,7 @@ DEFAULT_POSITIVE_SIGNALS = {
             "python", "sql", "aws", "azure", "gcp", "docker", "kubernetes",
             "terraform", "postgresql", "redshift", "bigquery", "glue",
             "kinesis", "firehose", "lambda", "step functions", "mwaa",
-            "s3", "parquet", "avro", "iceberg",
+            "s3", "parquet", "avro", "delta lake", "iceberg",
             "ci/cd", "github actions", "jenkins", "data quality",
             "great expectations", "soda", "dbt tests",
         ]
@@ -39,9 +44,9 @@ DEFAULT_POSITIVE_SIGNALS = {
     "low_weight": {
         "weight": 3,
         "terms": [
-            "git", "linux", "api", "rest", "json", "yaml",
-            "agile", "scrum", "monitoring", "observability",
-            "data transformation", "data modelling",
+            "git", "linux", "api", "rest", "json", "yaml", "csv",
+            "agile", "scrum", "jira", "confluence", "documentation",
+            "monitoring", "logging", "observability", "alerting",
         ]
     },
 }
@@ -58,7 +63,8 @@ DEFAULT_NEGATIVE_SIGNALS = {
         "weight": -10,
         "terms": [
             "helpdesk", "help desk", "support engineer", "manual testing",
-            "call centre", "call center", "telesales",
+            "data entry clerk", "call centre", "call center",
+            "telesales", "telemarketing",
         ]
     },
     "light_penalty": {
@@ -71,110 +77,73 @@ DEFAULT_NEGATIVE_SIGNALS = {
     },
 }
 
+# Title-based signals (checked against job title only)
 TITLE_POSITIVE = {
     "data engineer": 25,
     "data engineering": 25,
     "analytics engineer": 20,
-    "data platform engineer": 20,
+    "data platform": 20,
     "pipeline engineer": 20,
     "etl developer": 15,
     "elt developer": 15,
     "data infrastructure": 15,
-    "data architect": 10,
 }
-
-# Title patterns that immediately disqualify a role (score forced to 0)
-TITLE_EXCLUSIONS = [
-    "bi developer",
-    "bi analyst",
-    "power bi developer",
-    "tableau developer",
-    "software engineer",
-    "java developer",
-    "python developer",
-    "frontend developer",
-    "backend developer",
-    "full stack developer",
-    "devops engineer",
-    "delivery manager",
-    "agile delivery",
-    "project manager",
-    "programme manager",
-    "business analyst",
-    "business intelligence developer",
-    "data analyst",
-    "data scientist",
-    "machine learning engineer",
-    "ml engineer",
-    "ai engineer",
-    "structured cabling",
-    "network engineer",
-    "telecoms engineer",
-    "trainee data",
-    "no experience necessary",
-    "data engineer - no experience",
-]
 
 TITLE_NEGATIVE = {
     "data entry": -30,
+    "data analyst": -25,     # Not a DE role
+    "lead data analyst": -25,
+    "data scientist": -20,    # Not a DE role
     "support": -15,
     "customer": -20,
     "receptionist": -30,
     "admin": -20,
     "clerk": -25,
+    "bi developer": -25,
+    "bi analyst": -25,
+    "sql developer": -20,
+    "software engineer": -20,
+    "business analyst": -25,
+    "business intelligence": -20,
+    "devops engineer": -20,
+    "net developer": -25,
+    "java developer": -25,
     "sales": -20,
-    "analyst": -10,
 }
 
 
 class RoleClassifier:
     """
     Classifies job postings as genuine data engineering roles.
-
+    
     Scoring:
-    - Base score: 50
-    - Title signals: +/- 10-30 points
+    - Base score: 50 (neutral)
+    - Title signals: +/- 15-30 points
     - Description keyword signals: +/- 3-20 points per keyword
-    - Title exclusions: force score to 0 immediately
     - Final score clamped to 0-100
-    - Threshold (default 70) determines pass/fail
+    - Threshold (default 60) determines pass/fail
     """
 
     def __init__(self, config: dict = None):
         self.config = config or {}
-        self.min_role_score = self.config.get("min_role_score", 70)
+        self.min_role_score = self.config.get("min_role_score", 35)
 
+        # Load custom signals from config, or use defaults
         pos = self.config.get("positive_signals", {})
         neg = self.config.get("negative_signals", {})
 
         self.positive_signals = self._build_signals(pos, DEFAULT_POSITIVE_SIGNALS)
         self.negative_signals = self._build_signals(neg, DEFAULT_NEGATIVE_SIGNALS)
 
-        # Merge config role_exclusions with hardcoded defaults
-        config_exclusions = self.config.get("negative_signals", {}).get(
-            "role_exclusions", []
-        )
-        self.title_exclusions = list(
-            set(TITLE_EXCLUSIONS + [e.lower() for e in config_exclusions])
-        )
-        logger.info(
-            f"RoleClassifier: threshold={self.min_role_score}, "
-            f"exclusions={len(self.title_exclusions)}"
-        )
-
     def _build_signals(self, custom: dict, defaults: dict) -> dict:
+        """Merge custom config signals with defaults."""
         if not custom:
             return defaults
         merged = {}
         for tier, data in defaults.items():
-            custom_terms = custom.get(tier, {})
-            if isinstance(custom_terms, list) and custom_terms:
+            custom_terms = custom.get(tier, [])
+            if custom_terms:
                 merged[tier] = {"weight": data["weight"], "terms": custom_terms}
-            elif isinstance(custom_terms, dict):
-                merged[tier] = {
-                    "weight": custom_terms.get("weight", data["weight"]),
-                    "terms": custom_terms.get("terms", data["terms"]),
-                }
             else:
                 merged[tier] = data
         return merged
@@ -182,50 +151,34 @@ class RoleClassifier:
     def classify(self, title: str, description: str) -> Tuple[float, bool, dict]:
         """
         Classify a job posting.
-
+        
         Returns:
-            Tuple of (score 0-100, is_genuine bool, details dict)
+            Tuple of (score, is_genuine, details_dict)
         """
         title_lower = title.lower().strip()
-        desc_lower = description.lower().strip() if description else ""
+        desc_lower = description.lower().strip()
+        full_text = f"{title_lower} {desc_lower}"
 
+        score = 50.0  # Neutral starting point
         details = {
             "title_signals": [],
             "positive_hits": [],
             "negative_hits": [],
-            "exclusion_triggered": None,
             "breakdown": {},
         }
 
-        # ── Hard exclusions: instantly disqualify ──────────
-        for exclusion in self.title_exclusions:
-            if exclusion in title_lower:
-                details["exclusion_triggered"] = exclusion
-                details["breakdown"] = {
-                    "base_score": 50,
-                    "final_score": 0,
-                    "threshold": self.min_role_score,
-                    "passes": False,
-                    "reason": f"Title exclusion matched: '{exclusion}'",
-                }
-                logger.debug(f"Excluded '{title}' — matched exclusion '{exclusion}'")
-                return 0.0, False, details
-
-        score = 50.0
-
-        # ── Title positive signals ─────────────────────────
+        # ── Title Scoring ──────────────────────────────────
         for term, points in TITLE_POSITIVE.items():
             if term in title_lower:
                 score += points
                 details["title_signals"].append(f"+{points}: '{term}' in title")
 
-        # ── Title negative signals ─────────────────────────
         for term, points in TITLE_NEGATIVE.items():
             if term in title_lower:
-                score += points
+                score += points  # points are already negative
                 details["title_signals"].append(f"{points}: '{term}' in title")
 
-        # ── Description positive signals ───────────────────
+        # ── Description Positive Signals ───────────────────
         for tier, data in self.positive_signals.items():
             weight = data["weight"]
             for term in data["terms"]:
@@ -233,27 +186,29 @@ class RoleClassifier:
                     score += weight
                     details["positive_hits"].append(f"+{weight}: '{term}'")
 
-        # ── Description negative signals ───────────────────
+        # ── Description Negative Signals ───────────────────
         for tier, data in self.negative_signals.items():
             weight = data["weight"]
-            for term in data.get("terms", []):
+            for term in data["terms"]:
                 if term in desc_lower:
-                    score += weight
+                    score += weight  # Already negative
                     details["negative_hits"].append(f"{weight}: '{term}'")
 
+        # ── Clamp to 0-100 ─────────────────────────────────
         score = max(0.0, min(100.0, score))
         is_genuine = score >= self.min_role_score
 
-        title_adj = 0
-        for s in details["title_signals"]:
-            try:
-                title_adj += int(s.split(":")[0].replace("+", ""))
-            except ValueError:
-                pass
-
         details["breakdown"] = {
             "base_score": 50,
-            "title_adjustment": title_adj,
+            "title_adjustment": sum(
+                int(s.split(":")[0]) for s in details["title_signals"]
+            ),
+            "positive_boost": sum(
+                int(s.split(":")[0].replace("+", "")) for s in details["positive_hits"]
+            ),
+            "negative_penalty": sum(
+                int(s.split(":")[0]) for s in details["negative_hits"]
+            ),
             "final_score": score,
             "threshold": self.min_role_score,
             "passes": is_genuine,

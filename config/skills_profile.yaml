@@ -6,12 +6,11 @@
 # ============================================================
 
 personal:
-  name: "YOUR NAME"
+  name: "Abraham Aroloye"
   title: "Data Engineer"
   location: "Glasgow, Scotland"
-  years_experience: 1  # Adjust to your actual experience
+  years_experience: 1
 
-# --- Technical Skills (grouped by proficiency) ---
 technical_skills:
   languages:
     expert: ["Python", "SQL"]
@@ -38,75 +37,18 @@ technical_skills:
     familiar: ["Kafka Connect", "Flink"]
 
   cloud:
-    proficient: ["AWS (S3, EC2, RDS)"]
-    familiar: ["Azure Data Factory", "GCP"]
-
-  devops:
-    expert: ["Docker", "Docker Compose", "Git"]
-    proficient: ["CI/CD (GitHub Actions)"]
-    familiar: ["Kubernetes", "Terraform"]
+    expert: ["Docker"]
+    proficient: ["AWS", "GCP"]
+    familiar: ["Azure"]
 
   data_quality:
     expert: ["Great Expectations"]
-    proficient: ["dbt tests"]
-    familiar: ["Soda"]
+    familiar: ["dbt tests"]
 
-  other:
-    proficient: ["REST APIs", "Web Scraping (Playwright)", "WordPress REST API"]
-    familiar: ["GraphQL"]
-
-# --- Portfolio Projects ---
 projects:
   - name: "Glasgow Traders AutoPipe"
-    description: >
-      End-to-end data pipeline that scrapes Glasgow business listings and
-      publishes them to a WordPress directory site. Features medallion
-      architecture, SHA-256 change detection, Business Health Score quality
-      gate, and closed business detector.
-    technologies:
-      - "Google Places API"
-      - "Playwright"
-      - "PostgreSQL"
-      - "dbt Core"
-      - "Great Expectations"
-      - "Apache Airflow"
-      - "Docker"
-      - "Slack Webhooks"
-      - "WordPress REST API"
-
+    description: "End-to-end data pipeline using Airflow, dbt, PostgreSQL, Snowflake"
+    skills: ["Airflow", "dbt", "PostgreSQL", "Snowflake", "Python", "Docker"]
   - name: "Job Search AutoPipe"
-    description: >
-      Automated job discovery pipeline that ingests from multiple job APIs,
-      applies NLP-based role classification and skills matching, delivers
-      daily ranked digests, and generates tailored cover letters.
-    technologies:
-      - "Adzuna API"
-      - "Reed API"
-      - "PostgreSQL"
-      - "dbt Core"
-      - "Great Expectations"
-      - "Apache Airflow"
-      - "Docker"
-      - "Slack Webhooks"
-      - "Claude API"
-
-# --- Soft Skills & Preferences ---
-soft_skills:
-  - "Problem solving"
-  - "Self-directed learning"
-  - "Technical writing"
-  - "Pipeline thinking"
-  - "Attention to data quality"
-
-# --- What you're looking for ---
-preferences:
-  role_types: ["Data Engineer", "Analytics Engineer", "Data Platform Engineer"]
-  industries_preferred: ["Tech", "Finance", "Healthcare", "Energy"]
-  deal_breakers:
-    - "Requires 5+ years experience"
-    - "Requires security clearance"
-  nice_to_have:
-    - "Remote or hybrid"
-    - "Modern data stack"
-    - "dbt/Airflow in use"
-    - "Mentorship culture"
+    description: "Automated job search pipeline with NLP classification and Telegram alerts"
+    skills: ["Airflow", "PostgreSQL", "Python", "Docker", "Great Expectations", "dbt"]

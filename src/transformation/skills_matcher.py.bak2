@@ -1,0 +1,227 @@
+"""
+Skills Matcher for Job Search AutoPipe.
+
+Compares a job description against the user's skills profile to produce
+a match score. Identifies which skills match and which are missing.
+"""
+
+import hashlib
+import logging
+import re
+from typing import Tuple
+
+logger = logging.getLogger(__name__)
+
+PROFICIENCY_WEIGHTS = {
+    "expert": 1.0,
+    "proficient": 0.7,
+    "familiar": 0.4,
+}
+
+
+class SkillsMatcher:
+    """
+    Scores how well a job description matches the user's skills profile.
+    Reads skills from config.yaml under skills_profile.tools (expert/proficient/familiar).
+    """
+
+    def __init__(self, skills_profile: dict):
+        self.profile = skills_profile
+        self.skill_index = self._build_skill_index()
+        self.all_known_skills = self._build_known_skills_set()
+
+    def _build_skill_index(self) -> dict:
+        """
+        Build a flat lookup: skill_name -> proficiency info.
+        Reads from skills_profile.tools (expert/proficient/familiar) in config.yaml.
+        Also handles the older technical_skills nested structure.
+        """
+        index = {}
+
+        # Primary path: config.yaml -> skills_profile -> tools
+        tools = self.profile.get("tools", {})
+        for level, skills in tools.items():
+            weight = PROFICIENCY_WEIGHTS.get(level, 0.3)
+            if isinstance(skills, list):
+                for skill in skills:
+                    canonical = skill.lower().strip()
+                    entry = {
+                        "name": skill,
+                        "category": "tools",
+                        "level": level,
+                        "weight": weight,
+                    }
+                    index[canonical] = entry
+                    for alias in self._get_aliases(skill):
+                        index[alias.lower()] = entry
+
+        # Fallback path: skills_profile.yaml -> technical_skills (nested)
+        tech = self.profile.get("technical_skills", {})
+        for category, levels in tech.items():
+            if not isinstance(levels, dict):
+                continue
+            for level, skills in levels.items():
+                weight = PROFICIENCY_WEIGHTS.get(level, 0.3)
+                if isinstance(skills, list):
+                    for skill in skills:
+                        canonical = skill.lower().strip()
+                        if canonical not in index:
+                            entry = {
+                                "name": skill,
+                                "category": category,
+                                "level": level,
+                                "weight": weight,
+                            }
+                            index[canonical] = entry
+                            for alias in self._get_aliases(skill):
+                                if alias.lower() not in index:
+                                    index[alias.lower()] = entry
+
+        logger.info(f"SkillsMatcher: built index with {len(index)} skill entries")
+        return index
+
+    def _build_known_skills_set(self) -> set:
+        """
+        Build a comprehensive set of DE skills to look for in JDs.
+        Includes the user's skills plus common DE ecosystem skills.
+        """
+        known = set(self.skill_index.keys())
+
+        additional = [
+            # Languages
+            "scala", "java", "go", "rust", "r", "typescript",
+            # Big data
+            "hadoop", "hive", "presto", "trino", "druid", "flink",
+            # Ingestion / ELT tools
+            "fivetran", "stitch", "airbyte", "meltano", "matillion",
+            # Visualisation (for gap detection)
+            "looker", "tableau", "power bi", "superset", "metabase",
+            # CDC / streaming
+            "debezium", "cdc", "kinesis", "pubsub",
+            # Cloud-native data
+            "aws glue", "azure data factory", "azure synapse", "google dataflow",
+            "aws lake formation", "aws emr", "aws athena",
+            # Table formats
+            "delta lake", "apache iceberg", "hudi", "iceberg",
+            # Orchestration alternatives
+            "prefect", "dagster", "luigi",
+            # Data quality
+            "soda", "monte carlo", "anomalo",
+            # Cataloguing
+            "data catalog", "data lineage", "data governance",
+            "unity catalog", "apache atlas", "collibra",
+            # MLOps crossover
+            "mlflow", "feature store", "vertex ai", "sagemaker",
+            # Storage / caching
+            "redis", "elasticsearch", "opensearch", "cassandra",
+            "dynamodb", "cosmos db",
+            # Misc
+            "pulsar", "rabbitmq", "nifi", "talend", "informatica",
+            "denodo", "dbt cloud",
+        ]
+        known.update(a.lower() for a in additional)
+        return known
+
+    def _get_aliases(self, skill: str) -> list:
+        """Return common aliases and abbreviations for a skill."""
+        aliases_map = {
+            "Apache Airflow": ["airflow", "apache airflow"],
+            "Apache Kafka": ["kafka", "apache kafka"],
+            "Apache Spark": ["spark", "apache spark"],
+            "dbt Core": ["dbt", "dbt core"],
+            "dbt": ["dbt core", "dbt cloud"],
+            "PostgreSQL": ["postgres", "postgresql", "psql"],
+            "PySpark": ["pyspark", "py spark"],
+            "Great Expectations": ["great expectations", "ge", "gx"],
+            "Amazon Web Services": ["aws", "amazon web services"],
+            "AWS": ["aws", "amazon web services", "amazon aws"],
+            "Google Cloud Platform": ["gcp", "google cloud"],
+            "GCP": ["gcp", "google cloud platform", "google cloud"],
+            "Microsoft Azure": ["azure", "microsoft azure"],
+            "Azure": ["azure", "microsoft azure"],
+            "Docker": ["docker", "docker compose", "dockerfile"],
+            "Kubernetes": ["kubernetes", "k8s"],
+            "GitHub Actions": ["github actions", "gh actions"],
+            "Snowflake": ["snowflake"],
+            "Databricks": ["databricks"],
+            "Terraform": ["terraform", "tf"],
+            "Kafka": ["kafka", "apache kafka"],
+            "Kafka Connect": ["kafka connect"],
+            "Pandas": ["pandas", "pd"],
+            "SQL": ["sql", "ansi sql", "t-sql", "pl/sql"],
+            "Python": ["python", "python3", "py"],
+        }
+        return aliases_map.get(skill, [])
+
+    def match(self, title: str, description: str) -> Tuple[float, list, list]:
+        """
+        Score how well a job matches the user's skills.
+
+        Returns:
+            Tuple of (match_score 0-100, matched_skills, missing_skills)
+        """
+        text = f"{title} {description}".lower()
+
+        jd_skills = set()
+        for skill_name in self.all_known_skills:
+            if len(skill_name) <= 3:
+                pattern = rf"\b{re.escape(skill_name)}\b"
+                if re.search(pattern, text):
+                    jd_skills.add(skill_name)
+            else:
+                if skill_name in text:
+                    jd_skills.add(skill_name)
+
+        if not jd_skills:
+            return 0.0, [], []
+
+        matched = []
+        missing = []
+        total_weight = 0.0
+        matched_weight = 0.0
+
+        for skill in jd_skills:
+            if skill in self.skill_index:
+                info = self.skill_index[skill]
+                matched.append(info["name"])
+                matched_weight += info["weight"]
+                total_weight += 1.0
+            else:
+                missing.append(skill)
+                total_weight += 1.0
+
+        if total_weight == 0:
+            return 0.0, [], []
+
+        score = (matched_weight / total_weight) * 100.0
+        score = max(0.0, min(100.0, score))
+
+        return score, sorted(set(matched)), sorted(set(missing))
+
+    @staticmethod
+    def compute_dedup_hash(title: str, company: str) -> str:
+        """
+        Generate a deduplication hash from normalised title + company.
+        Strips punctuation and special chars so minor variations hash identically.
+        e.g. "Data Engineer (contract)" and "Data Engineer" -> same hash
+        """
+        def clean(s: str) -> str:
+            s = s.lower().strip()
+            s = re.sub(r'[^a-z0-9\s]', '', s)
+            s = re.sub(r'\s+', ' ', s).strip()
+            # Remove common noise suffixes
+            for noise in [" contract", " permanent", " perm", " ltd", " limited",
+                          " plc", " inc", " llc", " uk", " remote"]:
+                s = s.replace(noise, "")
+            return s.strip()
+
+        normalized = f"{clean(title)}|{clean(company)}"
+        return hashlib.sha256(normalized.encode()).hexdigest()
+
+    def compute_overall_score(self, role_score: float, skills_score: float) -> float:
+        """
+        Weighted overall score.
+        - Role score: 40% (is it actually a DE role?)
+        - Skills match: 60% (does it match your profile?)
+        """
+        return (role_score * 0.4) + (skills_score * 0.6)

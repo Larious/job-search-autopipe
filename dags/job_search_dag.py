@@ -173,8 +173,16 @@ def task_classify(**context):
         # Match skills
         skills_score, matched, missing = matcher.match(title, desc_clean)
 
-        # Overall score
-        overall = matcher.compute_overall_score(role_score, skills_score)
+        # Overall score — 10-dimensional
+        overall, _ = matcher.score_10d(
+            title=title,
+            description=desc_clean,
+            role_score=role_score,
+            skills_score=skills_score,
+            salary_min=float(salary_min) if salary_min else None,
+            salary_max=float(salary_max) if salary_max else None,
+            posted_date=posted_date,
+        )
 
         # Dedup hash
         dedup_hash = matcher.compute_dedup_hash(title, company)
