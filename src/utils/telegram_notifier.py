@@ -108,7 +108,8 @@ class TelegramNotifier:
         )
 
         job_blocks = []
-        for job in jobs[:10]:
+        max_jobs = self.config.get("digest", {}).get("max_jobs_per_digest", 20)
+        for job in jobs[:max_jobs]:
             score_icon = "🟢" if job["overall_score"] >= 80 else "🟡" if job["overall_score"] >= 60 else "🟠"
             skills = ", ".join(job.get("matched_skills", [])[:4])
 
@@ -124,15 +125,20 @@ class TelegramNotifier:
         full_msg = header + "\n".join(job_blocks)
         full_msg += f"\n\n{'─' * 28}\nReply with a job number to flag it"
 
-        if len(full_msg) <= 4000:
-            self._send(full_msg)
-        else:
-            # Split into two messages
-            mid = len(job_blocks) // 2
-            msg1 = header + "\n".join(job_blocks[:mid])
-            msg2 = "\n".join(job_blocks[mid:]) + f"\n\n{'─' * 28}\nReply with a job number to flag it"
-            self._send(msg1)
-            self._send(msg2)
+        # Split into chunks that fit Telegram's 4096 char limit
+        chunks = []
+        current_chunk = header
+        for i, block in enumerate(job_blocks):
+            test = current_chunk + block
+            if len(test) > 3800 and i > 0:
+                chunks.append(current_chunk)
+                current_chunk = block
+            else:
+                current_chunk = test
+        chunks.append(current_chunk)
+        chunks[-1] += f"\n\n{'─' * 28}\nReply with a job number to flag it"
+        for chunk in chunks:
+            self._send(chunk)
 
         logger.info(f"Daily digest sent with {len(jobs)} jobs via Telegram.")
 
