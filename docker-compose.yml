@@ -1,4 +1,3 @@
-version: "3.8"
 
 # ============================================================
 # Job Search AutoPipe — Docker Compose
@@ -160,6 +159,19 @@ services:
         condition: service_healthy
     restart: unless-stopped
 
+
+  ngrok:
+    image: ngrok/ngrok:latest
+    container_name: autopipe-ngrok
+    ports:
+      - "4040:4040"
+    environment:
+      - NGROK_AUTHTOKEN=${NGROK_AUTHTOKEN}
+    command: http telegram-webhook:8443 --url=caramel-overdue-palpitate.ngrok-free.dev
+    depends_on:
+      - telegram-webhook
+    restart: unless-stopped
 volumes:
   pipeline_data:
   airflow_data:
+

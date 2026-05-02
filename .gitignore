@@ -20,3 +20,4 @@ config/config.yaml.bak
 config/*.bak
 config/config.yaml
 config/*.bak
+.env

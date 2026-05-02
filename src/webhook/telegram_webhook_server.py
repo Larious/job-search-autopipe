@@ -376,7 +376,6 @@ class WebhookHandler(BaseHTTPRequestHandler):
         now_sql = "NOW()"
 
         timestamp_map = {
-            "applied": "applied_at",
             "interviewing": "interview_at",
             "rejected": "rejected_at",
             "offer": "offer_at",
