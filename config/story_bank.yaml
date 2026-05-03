@@ -1,553 +1,895 @@
-# =============================================================
-# Abraham Aroloye — YAML Story Bank v1.0
-# Dynamic Resume Bullet Engine
-# 54 bullets across 5 projects + certifications
-# =============================================================
-
 bullets:
-
-  # ─────────────────────────────────────────────────────────
-  # PROJECT: Job Search AutoPipe (10Alytics Consultancy)
-  # Role: Data Engineer Consultant — March 2026–Present
-  # ─────────────────────────────────────────────────────────
-
-  - id: "autopipe-001"
-    text: "Designed and deployed a 5-stage end-to-end job search pipeline ingesting 797 UK listings daily from Adzuna and Reed APIs, classifying them with an NLP scoring engine, and delivering ranked Telegram alerts — built on Apache Airflow, PostgreSQL medallion architecture, and Docker"
-    tags: [airflow, python, postgresql, docker, api-ingestion, nlp, medallion, etl]
-    archetype: [pipeline, cloud, platform]
-    metric_type: scale
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-002"
-    text: "Orchestrated a full 5-task Airflow DAG (ingest → classify → quality → digest → end) across 4 containerised services via Docker Compose — fully automated with zero manual trigger dependency"
-    tags: [airflow, dag, docker, orchestration, automation]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-003"
-    text: "Built a bidirectional Telegram bot with webhook architecture handling /flag, /cover, and /digest commands — triggering Claude API cover letter generation and WeasyPrint PDF compilation in under 60 seconds per job"
-    tags: [telegram-api, webhook, python, claude-api, automation, bot]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-004"
-    text: "Engineered an NLP role classifier with configurable TITLENEGATIVE signal penalties and a 70-point threshold gate, reducing digest noise by eliminating BI, SQL Developer, and Data Analyst roles from genuine DE output"
-    tags: [nlp, python, classification, data-quality, postgresql]
-    archetype: [pipeline, analytics]
-    metric_type: efficiency
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-005"
-    text: "Implemented SHA-256 hash-based change detection for cross-source deduplication across Adzuna and Reed API feeds — eliminating duplicate listings before silver layer classification"
-    tags: [python, data-quality, deduplication, sha256, postgresql]
-    archetype: [pipeline, analytics]
-    metric_type: reliability
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-006"
-    text: "Integrated Claude API to auto-generate role-tailored cover letters from job description, skills profile, and matched/missing skill gaps — producing interview-ready output in seconds with zero manual input"
-    tags: [claude-api, llm, python, automation, nlp]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-007"
-    text: "Fixed Reed API date parsing bug (DD/MM/YYYY format mismatch) causing classify task failures — resolving the issue across 796 bronze rows without data loss"
-    tags: [python, debugging, api-ingestion, postgresql, airflow]
-    archetype: [pipeline]
-    metric_type: reliability
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-008"
-    text: "Delivered a ranked daily Telegram digest of top 20 matched DE roles at 07:00 daily, reducing manual job-search time from ~45 minutes to under 5 minutes per day"
-    tags: [telegram-api, automation, python, airflow, scheduling]
-    archetype: [pipeline, platform]
-    metric_type: efficiency
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-009"
-    text: "Built a Python data pipeline ingesting, validating, and processing 9,600 energy meter records across 4 regional CSV files in a single execution with zero pipeline failures"
-    tags: [python, etl, data-quality, postgresql, csv-ingestion]
-    archetype: [pipeline, analytics]
-    metric_type: scale
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-010"
-    text: "Engineered a multi-layer data quality validation system detecting 171 invalid records, 400 duplicate meter IDs, and 21 high-consumption anomalies — maintaining a 98.25% data quality rate against a 95% pipeline benchmark"
-    tags: [data-quality, great-expectations, python, postgresql, validation]
-    archetype: [pipeline, analytics]
-    metric_type: reliability
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-011"
-    text: "Delivered structured JSON and CSV summary reports using Medallion Architecture (Bronze → Silver → Gold) covering regional aggregations, anomaly flags, and timestamp validation across 9,600 energy meter records"
-    tags: [medallion, postgresql, python, reporting, etl]
-    archetype: [pipeline, analytics]
-    metric_type: scale
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-012"
-    text: "Containerised the full job search pipeline stack using Docker Compose with 4 services (Airflow scheduler, Airflow webserver, PostgreSQL, autopipe app) — enabling reproducible local development and cloud-ready deployment"
-    tags: [docker, docker-compose, airflow, postgresql, infrastructure]
-    archetype: [cloud, platform]
-    metric_type: autonomy
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  - id: "autopipe-013"
-    text: "Configured ngrok tunnel integration for live Telegram webhook delivery — enabling real-time bidirectional bot communication during local development without cloud deployment"
-    tags: [ngrok, webhook, telegram-api, networking, python]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "job-search-autopipe"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # PROJECT: Glasgow Traders
-  # Role: Data Engineer — March 2025–Present
-  # ─────────────────────────────────────────────────────────
-
-  - id: "gtrd-001"
-    text: "Built an end-to-end automated data pipeline processing 1,632 businesses across 107 Scottish locations with zero pipeline failures — discovering, enriching, and publishing local trade listings at scale"
-    tags: [python, etl, api-ingestion, postgresql, automation]
-    archetype: [pipeline, cloud]
-    metric_type: scale
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-002"
-    text: "Engineered a Google Places API ingestion layer with multi-page pagination, haversine geospatial filtering (15 km radius), and keyword-based classification — reducing irrelevant data by ~85% before load"
-    tags: [python, google-places-api, geospatial, api-ingestion, data-quality]
-    archetype: [pipeline, analytics]
-    metric_type: efficiency
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-003"
-    text: "Automated WordPress REST API publishing — uploading photos, injecting structured metadata (hours, coordinates, phone, gallery), and setting featured media — publishing 249 builder, 447 electrician, and 360 plumber listings without manual intervention"
-    tags: [python, rest-api, wordpress-api, automation, etl]
-    archetype: [pipeline]
-    metric_type: scale
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-004"
-    text: "Designed and implemented Medallion Architecture (Bronze → Silver → Gold) using dbt Core on Snowflake, transforming raw API JSON through staging, intermediate, and mart layers"
-    tags: [dbt, snowflake, medallion, sql, data-modelling]
-    archetype: [analytics, cloud]
-    metric_type: autonomy
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-005"
-    text: "Migrated dbt project from PostgreSQL to Snowflake — reconfigured profiles.yml, updated adapters, resolved schema permissions — achieving 100% dbt test pass rate (PASS 4, ERROR 0) in production Snowflake environment"
-    tags: [dbt, snowflake, postgresql, migration, sql]
-    archetype: [analytics, cloud]
-    metric_type: reliability
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-006"
-    text: "Authored dbt schema tests (not_null, unique, accepted_values) across staging and mart models — enforcing data contract standards and achieving 100% test pass rate in production"
-    tags: [dbt, data-quality, sql, snowflake, testing]
-    archetype: [analytics]
-    metric_type: reliability
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-007"
-    text: "Built a cleanup automation script scanning 1,002 published listings via REST API, identifying and deleting 250 records missing featured images — achieving 195 successful deletions with structured error logging"
-    tags: [python, rest-api, automation, data-quality, error-handling]
-    archetype: [pipeline]
-    metric_type: efficiency
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-008"
-    text: "Authored production-grade Apache Airflow DAGs with scheduled triggers, task dependencies, and retry logic — replacing manual terminal execution with fully automated pipeline orchestration"
-    tags: [airflow, dag, orchestration, python, scheduling]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-009"
-    text: "Containerised the full Glasgow Traders pipeline stack using Docker Compose — enabling consistent local development and laying the foundation for cloud deployment to AWS (EC2/ECS + MWAA)"
-    tags: [docker, docker-compose, aws, airflow, infrastructure]
-    archetype: [cloud, platform]
-    metric_type: autonomy
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-010"
-    text: "Designed PostgreSQL schema with JSONB columns for flexible metadata storage — enabling semi-structured API response data to be queried efficiently without rigid schema constraints"
-    tags: [postgresql, jsonb, schema-design, sql, database]
-    archetype: [pipeline, analytics]
-    metric_type: autonomy
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-011"
-    text: "Integrated Google Places API with rate-limit handling, exponential backoff, and pagination logic — ensuring stable ingestion across 107 locations without API quota failures"
-    tags: [python, api-ingestion, google-places-api, error-handling, rate-limiting]
-    archetype: [pipeline]
-    metric_type: reliability
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  - id: "gtrd-012"
-    text: "Built end-to-end pipeline from raw API JSON to structured Snowflake mart tables — enabling downstream analytics on trade business density, category distribution, and geographic spread across Scotland"
-    tags: [snowflake, dbt, python, analytics, etl]
-    archetype: [analytics, cloud]
-    metric_type: scale
-    recency_weight: 0.9
-    conversion_score: null
-    source_project: "glasgow-traders"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # PROJECT: Rex Insurance Limited
-  # Role: Digital Web System Administrator — Aug 2019–Aug 2022
-  # ─────────────────────────────────────────────────────────
-
-  - id: "rex-001"
-    text: "Built and maintained customer-facing web systems and internal databases ensuring 99.9% uptime across 10K+ monthly active sessions"
-    tags: [database, reliability, web-systems, sql, monitoring]
-    archetype: [platform]
-    metric_type: reliability
-    recency_weight: 0.6
-    conversion_score: null
-    source_project: "rex-insurance"
-    verified: true
-
-  - id: "rex-002"
-    text: "Designed event-tracking data pipelines using Google Analytics, Google Tag Manager, and Meta Pixel — orchestrating collection, transformation, and loading of 100K+ monthly user interaction events that powered conversion funnel analysis"
-    tags: [google-analytics, etl, data-pipeline, reporting, tracking]
-    archetype: [analytics, pipeline]
-    metric_type: scale
-    recency_weight: 0.6
-    conversion_score: null
-    source_project: "rex-insurance"
-    verified: true
-
-  - id: "rex-003"
-    text: "Delivered data-driven SEO analysis — modelled keyword performance, built reporting dashboards, and drove insights that increased organic traffic by 45% over 12 months"
-    tags: [analytics, reporting, seo, dashboarding, data-driven]
-    archetype: [analytics]
-    metric_type: efficiency
-    recency_weight: 0.6
-    conversion_score: null
-    source_project: "rex-insurance"
-    verified: true
-
-  - id: "rex-004"
-    text: "Moved 15+ high-value keywords from page 3 to page 1 through structured data analysis and iterative content optimisation — demonstrating applied analytics driving measurable business outcomes"
-    tags: [analytics, reporting, data-driven, optimisation]
-    archetype: [analytics]
-    metric_type: efficiency
-    recency_weight: 0.6
-    conversion_score: null
-    source_project: "rex-insurance"
-    verified: true
-
-  - id: "rex-005"
-    text: "Reduced bounce rate by 25% through event-tracking pipeline analysis — identifying high-drop-off pages and delivering structured recommendations to the product team"
-    tags: [analytics, google-analytics, reporting, data-driven]
-    archetype: [analytics]
-    metric_type: efficiency
-    recency_weight: 0.6
-    conversion_score: null
-    source_project: "rex-insurance"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # PROJECT: Newcoolmex Nigeria Limited
-  # Role: E-commerce Web System Administrator — Feb 2016–Jul 2019
-  # ─────────────────────────────────────────────────────────
-
-  - id: "ncm-001"
-    text: "Built and maintained e-commerce data infrastructure managing daily product data ingestion — pricing, inventory, and catalogue metadata — ensuring data consistency across multiple storefronts"
-    tags: [etl, database, data-ingestion, sql, e-commerce]
-    archetype: [pipeline]
-    metric_type: reliability
-    recency_weight: 0.4
-    conversion_score: null
-    source_project: "newcoolmex"
-    verified: true
-
-  - id: "ncm-002"
-    text: "Designed analytics workflows using Google Analytics, Ahrefs, SEMrush, Moz, and Screaming Frog to deliver data-driven performance recommendations across e-commerce storefronts"
-    tags: [analytics, reporting, google-analytics, data-driven]
-    archetype: [analytics]
-    metric_type: autonomy
-    recency_weight: 0.4
-    conversion_score: null
-    source_project: "newcoolmex"
-    verified: true
-
-  - id: "ncm-003"
-    text: "Administered backend CMS with scheduled daily data loads and automated backup procedures — ensuring reliable data availability and zero data loss across 3+ years of operation"
-    tags: [database, automation, backup, reliability, sql]
-    archetype: [platform]
-    metric_type: reliability
-    recency_weight: 0.4
-    conversion_score: null
-    source_project: "newcoolmex"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # PROJECT: Alphacom Online Investment Limited
-  # Role: Digital Executive — Sept 2015–Jan 2016
-  # ─────────────────────────────────────────────────────────
-
-  - id: "alp-001"
-    text: "Consolidated multi-channel engagement data (Facebook, Instagram, Twitter, LinkedIn) into unified reporting pipelines — enabling cross-platform performance analysis from a single dashboard"
-    tags: [etl, reporting, analytics, python, data-consolidation]
-    archetype: [analytics, pipeline]
-    metric_type: autonomy
-    recency_weight: 0.3
-    conversion_score: null
-    source_project: "alphacom"
-    verified: true
-
-  - id: "alp-002"
-    text: "Produced campaign analytics reports using Google Ads and platform-native tools — tracking conversion patterns and delivering data-driven recommendations that informed budget allocation"
-    tags: [analytics, reporting, google-ads, data-driven]
-    archetype: [analytics]
-    metric_type: efficiency
-    recency_weight: 0.3
-    conversion_score: null
-    source_project: "alphacom"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # CROSS-PROJECT: Architecture & Infrastructure Bullets
-  # Used when JD emphasises system design / infra depth
-  # ─────────────────────────────────────────────────────────
-
-  - id: "arch-001"
-    text: "Applied Medallion Architecture (Bronze → Silver → Gold) consistently across two production pipelines — standardising raw ingestion, transformation, and analytical output layers for maintainability and auditability"
-    tags: [medallion, architecture, dbt, postgresql, snowflake]
-    archetype: [pipeline, analytics, platform]
-    metric_type: autonomy
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-002"
-    text: "Designed and deployed containerised data infrastructure using Docker Compose across two independent production pipelines — enabling environment parity between local development and cloud deployment targets"
-    tags: [docker, docker-compose, infrastructure, airflow, aws]
-    archetype: [cloud, platform]
-    metric_type: autonomy
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-003"
-    text: "Built REST API integration clients for 4 distinct APIs (Adzuna, Reed, Google Places, WordPress) — each with pagination handling, error recovery, rate-limit compliance, and structured bronze-layer output"
-    tags: [rest-api, python, api-ingestion, error-handling, etl]
-    archetype: [pipeline]
-    metric_type: scale
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-004"
-    text: "Implemented data quality enforcement across two pipelines using Great Expectations and SHA-256 change detection — establishing automated validation as a standard pipeline stage rather than a manual step"
-    tags: [great-expectations, data-quality, sha256, python, postgresql]
-    archetype: [pipeline, analytics]
-    metric_type: reliability
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-005"
-    text: "Maintained Git-based version control with structured commit messages and feature branch discipline across all pipeline projects — ensuring full audit trail and rollback capability for production deployments"
-    tags: [git, github, version-control, devops, collaboration]
-    archetype: [platform, pipeline]
-    metric_type: autonomy
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-006"
-    text: "Drafted Terraform infrastructure-as-code configuration for AWS EC2/ECS + MWAA deployment — establishing the foundation for cloud migration of locally containerised Airflow pipelines"
-    tags: [terraform, aws, iac, ec2, mwaa, airflow]
-    archetype: [cloud, platform]
-    metric_type: autonomy
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-007"
-    text: "Consumed and integrated Claude API (claude-sonnet) via structured JSON mode for NLP classification and generative tasks — demonstrating practical LLM integration in production data pipelines"
-    tags: [claude-api, llm, python, nlp, ai-integration]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 1.0
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  - id: "arch-008"
-    text: "Wrote YAML-driven pipeline configuration across multiple projects — externalising API keys, thresholds, scoring weights, and notification settings for zero-code environment switching"
-    tags: [yaml, configuration, python, devops, airflow]
-    archetype: [pipeline, platform]
-    metric_type: autonomy
-    recency_weight: 0.95
-    conversion_score: null
-    source_project: "cross-project"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # SKILLS / CERTIFICATION BULLETS
-  # Used for roles emphasising cloud credentials or specific tools
-  # ─────────────────────────────────────────────────────────
-
-  - id: "cert-001"
-    text: "Microsoft Certified: Azure Administrator Associate — demonstrated competency in Azure infrastructure management, identity, governance, and cloud resource provisioning"
-    tags: [azure, microsoft, cloud, certification, infrastructure]
-    archetype: [cloud]
-    metric_type: autonomy
-    recency_weight: 0.8
-    conversion_score: null
-    source_project: "certifications"
-    verified: true
-
-  - id: "cert-002"
-    text: "Microsoft Certified: Security Operations Analyst Associate — trained in threat detection, incident response, and security monitoring across Microsoft security toolchain"
-    tags: [azure, security, microsoft, certification, monitoring]
-    archetype: [cloud, platform]
-    metric_type: autonomy
-    recency_weight: 0.8
-    conversion_score: null
-    source_project: "certifications"
-    verified: true
-
-  - id: "cert-003"
-    text: "CompTIA Security+ Certified — validated baseline knowledge of network security, cryptography, compliance, and operational security practices"
-    tags: [security, certification, networking, compliance]
-    archetype: [platform]
-    metric_type: autonomy
-    recency_weight: 0.8
-    conversion_score: null
-    source_project: "certifications"
-    verified: true
-
-  - id: "cert-004"
-    text: "Google Cloud Identity Certified — validated understanding of identity and access management principles applicable to multi-cloud data platform governance"
-    tags: [gcp, google-cloud, iam, certification, cloud]
-    archetype: [cloud]
-    metric_type: autonomy
-    recency_weight: 0.8
-    conversion_score: null
-    source_project: "certifications"
-    verified: true
-
-  # ─────────────────────────────────────────────────────────
-  # PROFESSIONAL SUMMARY VARIANTS
-  # The agent swaps these based on detected archetype
-  # ─────────────────────────────────────────────────────────
-
+- id: autopipe-001
+  text: Built a 5-stage Airflow pipeline that pulls 797 UK job listings every day
+    from the Adzuna and Reed APIs, scores them with an NLP classifier, and sends a
+    ranked Telegram digest automatically. The whole thing runs on PostgreSQL with
+    a medallion architecture inside Docker Compose with no manual trigger needed.
+  tags:
+  - airflow
+  - python
+  - postgresql
+  - docker
+  - api-ingestion
+  - nlp
+  - medallion
+  - etl
+  archetype:
+  - pipeline
+  - cloud
+  - platform
+  metric_type: scale
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-002
+  text: Orchestrated the pipeline as a single Airflow DAG across 5 tasks and 4 Docker
+    services. Each stage hands off to the next automatically so there is nothing to
+    run manually.
+  tags:
+  - airflow
+  - dag
+  - docker
+  - orchestration
+  - automation
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-003
+  text: Built a two-way Telegram bot that responds to /flag, /cover and /digest commands.
+    When someone flags a job it calls the Claude API, generates a cover letter for
+    that specific role and sends the PDF back in under 60 seconds.
+  tags:
+  - telegram-api
+  - webhook
+  - python
+  - claude-api
+  - automation
+  - bot
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-004
+  text: Tightened the role classifier to stop non-DE jobs appearing in the digest.
+    Added title penalty signals for BI Developer, SQL Developer and Data Analyst roles
+    and raised the score threshold from 60 to 70. The digest went from noisy to genuinely
+    useful.
+  tags:
+  - nlp
+  - python
+  - classification
+  - data-quality
+  - postgresql
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: efficiency
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-005
+  text: Added SHA-256 hashing at the ingestion stage to catch duplicate listings across
+    Adzuna and Reed before they reach the classification layer. Duplicates no longer
+    appear in the digest.
+  tags:
+  - python
+  - data-quality
+  - deduplication
+  - sha256
+  - postgresql
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: reliability
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-006
+  text: Wired the Claude API into the pipeline so flagging a job from Telegram automatically
+    generates a cover letter matched to that specific job description and skills profile.
+  tags:
+  - claude-api
+  - llm
+  - python
+  - automation
+  - nlp
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-007
+  text: Tracked down and fixed a date parsing bug in the Reed ingestion client where
+    DD/MM/YYYY dates were crashing the classify task. Fixed it without losing any
+    of the 796 bronze rows.
+  tags:
+  - python
+  - debugging
+  - api-ingestion
+  - postgresql
+  - airflow
+  archetype:
+  - pipeline
+  metric_type: reliability
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-008
+  text: The pipeline runs at 07:00 every morning and sends the top 20 matched roles
+    to Telegram. What used to take 45 minutes of manual job searching now takes under
+    5 minutes to review.
+  tags:
+  - telegram-api
+  - automation
+  - python
+  - airflow
+  - scheduling
+  archetype:
+  - pipeline
+  - platform
+  metric_type: efficiency
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-009
+  text: Wrote a Python pipeline that ingested and processed 9,600 energy meter readings
+    across 4 regional CSV files in a single run with no failures.
+  tags:
+  - python
+  - etl
+  - data-quality
+  - postgresql
+  - csv-ingestion
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: scale
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-010
+  text: Built a validation layer that caught 171 invalid records, 400 duplicate meter
+    IDs and 21 high-consumption anomalies automatically. The pipeline held a 98.25%
+    data quality rate against a 95% target.
+  tags:
+  - data-quality
+  - great-expectations
+  - python
+  - postgresql
+  - validation
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: reliability
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-011
+  text: Structured the output using a Bronze to Silver to Gold medallion architecture.
+    The Gold layer delivered regional aggregations, anomaly flags and timestamp validation
+    across all 9,600 records as both JSON and CSV.
+  tags:
+  - medallion
+  - postgresql
+  - python
+  - reporting
+  - etl
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: scale
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-012
+  text: 'Containerised the whole pipeline with Docker Compose running 4 services:
+    Airflow scheduler, Airflow webserver, PostgreSQL and the autopipe app. Works the
+    same locally as it will in the cloud.'
+  tags:
+  - docker
+  - docker-compose
+  - airflow
+  - postgresql
+  - infrastructure
+  archetype:
+  - cloud
+  - platform
+  metric_type: autonomy
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: autopipe-013
+  text: Set up an ngrok tunnel so the Telegram webhook could reach the local bot during
+    development without needing a cloud deployment.
+  tags:
+  - ngrok
+  - webhook
+  - telegram-api
+  - networking
+  - python
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: job-search-autopipe
+  verified: true
+- id: gtrd-001
+  text: Built the whole pipeline myself from scratch. It discovers, enriches and publishes
+    local trade business listings across Scotland, processing 1,632 businesses in
+    107 locations without a single pipeline failure.
+  tags:
+  - python
+  - etl
+  - api-ingestion
+  - postgresql
+  - automation
+  archetype:
+  - pipeline
+  - cloud
+  metric_type: scale
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-002
+  text: The Google Places ingestion layer handles multi-page pagination, filters results
+    by a 15 km radius using haversine distance, and classifies businesses by keyword
+    before anything hits the database. That cut irrelevant data by about 85% at source.
+  tags:
+  - python
+  - google-places-api
+  - geospatial
+  - api-ingestion
+  - data-quality
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: efficiency
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-003
+  text: Automated the WordPress publishing step so the pipeline uploads photos, injects
+    structured metadata and sets featured images through the REST API. Published 249
+    builder, 447 electrician and 360 plumber listings without touching the CMS manually.
+  tags:
+  - python
+  - rest-api
+  - wordpress-api
+  - automation
+  - etl
+  archetype:
+  - pipeline
+  metric_type: scale
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-004
+  text: Modelled the data in dbt Core on Snowflake using a Bronze to Silver to Gold
+    architecture. Raw API JSON goes in at Bronze and comes out as clean, tested mart
+    tables at Gold.
+  tags:
+  - dbt
+  - snowflake
+  - medallion
+  - sql
+  - data-modelling
+  archetype:
+  - analytics
+  - cloud
+  metric_type: autonomy
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-005
+  text: Migrated the whole dbt project from PostgreSQL to Snowflake. Updated the connection
+    config, adapter and schema permissions. All 4 dbt tests passed first time in the
+    Snowflake environment.
+  tags:
+  - dbt
+  - snowflake
+  - postgresql
+  - migration
+  - sql
+  archetype:
+  - analytics
+  - cloud
+  metric_type: reliability
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-006
+  text: Wrote not_null, unique and accepted_values schema tests across the staging
+    and mart models. 100% pass rate in production on Snowflake.
+  tags:
+  - dbt
+  - data-quality
+  - sql
+  - snowflake
+  - testing
+  archetype:
+  - analytics
+  metric_type: reliability
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-007
+  text: Wrote a cleanup script that scanned 1,002 published listings via the REST
+    API, found 250 records with missing featured images and deleted them. 195 deletions
+    completed successfully.
+  tags:
+  - python
+  - rest-api
+  - automation
+  - data-quality
+  - error-handling
+  archetype:
+  - pipeline
+  metric_type: efficiency
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-008
+  text: Replaced manual terminal runs with scheduled Airflow DAGs that have proper
+    task dependencies and retry logic. The pipeline now runs itself.
+  tags:
+  - airflow
+  - dag
+  - orchestration
+  - python
+  - scheduling
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-009
+  text: Containerised the Glasgow Traders pipeline with Docker Compose and drafted
+    the Terraform config for AWS EC2 and ECS deployment when it moves to the cloud.
+  tags:
+  - docker
+  - docker-compose
+  - aws
+  - airflow
+  - infrastructure
+  archetype:
+  - cloud
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-010
+  text: Designed the PostgreSQL schema with JSONB columns so the semi-structured API
+    response data could be stored and queried without forcing it into rigid tables.
+  tags:
+  - postgresql
+  - jsonb
+  - schema-design
+  - sql
+  - database
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: autonomy
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-011
+  text: Built the Google Places client with exponential backoff and rate-limit handling
+    so the ingestion runs cleanly across 107 locations without hitting API quota failures.
+  tags:
+  - python
+  - api-ingestion
+  - google-places-api
+  - error-handling
+  - rate-limiting
+  archetype:
+  - pipeline
+  metric_type: reliability
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: gtrd-012
+  text: The Gold layer tables in Snowflake give a clear picture of business density,
+    category spread and geographic distribution across Scotland. Downstream analytics
+    are built directly on top.
+  tags:
+  - snowflake
+  - dbt
+  - python
+  - analytics
+  - etl
+  archetype:
+  - analytics
+  - cloud
+  metric_type: scale
+  recency_weight: 0.9
+  conversion_score: null
+  source_project: glasgow-traders
+  verified: true
+- id: rex-001
+  text: Kept the Rex Insurance web platform running at 99.9% uptime with over 10,000
+    active sessions each month.
+  tags:
+  - database
+  - reliability
+  - web-systems
+  - sql
+  - monitoring
+  archetype:
+  - platform
+  metric_type: reliability
+  recency_weight: 0.6
+  conversion_score: null
+  source_project: rex-insurance
+  verified: true
+- id: rex-002
+  text: Set up Google Analytics, Tag Manager and Meta Pixel to capture over 100,000
+    user events a month. That data fed directly into conversion funnel analysis and
+    cut the bounce rate by 25%.
+  tags:
+  - google-analytics
+  - etl
+  - data-pipeline
+  - reporting
+  - tracking
+  archetype:
+  - analytics
+  - pipeline
+  metric_type: scale
+  recency_weight: 0.6
+  conversion_score: null
+  source_project: rex-insurance
+  verified: true
+- id: rex-003
+  text: Did the keyword analysis and reporting that drove a 45% increase in organic
+    traffic over 12 months.
+  tags:
+  - analytics
+  - reporting
+  - seo
+  - dashboarding
+  - data-driven
+  archetype:
+  - analytics
+  metric_type: efficiency
+  recency_weight: 0.6
+  conversion_score: null
+  source_project: rex-insurance
+  verified: true
+- id: rex-004
+  text: Moved 15 high-value insurance keywords from page 3 to page 1 through structured
+    analysis and content work.
+  tags:
+  - analytics
+  - reporting
+  - data-driven
+  - optimisation
+  archetype:
+  - analytics
+  metric_type: efficiency
+  recency_weight: 0.6
+  conversion_score: null
+  source_project: rex-insurance
+  verified: true
+- id: rex-005
+  text: Identified the highest drop-off pages through event tracking data and gave
+    the product team specific recommendations that reduced bounce rate by 25%.
+  tags:
+  - analytics
+  - google-analytics
+  - reporting
+  - data-driven
+  archetype:
+  - analytics
+  metric_type: efficiency
+  recency_weight: 0.6
+  conversion_score: null
+  source_project: rex-insurance
+  verified: true
+- id: ncm-001
+  text: Ran the daily data ingestion for pricing, inventory and catalogue metadata
+    across the Newcoolmex e-commerce platform, keeping data consistent across multiple
+    storefronts.
+  tags:
+  - etl
+  - database
+  - data-ingestion
+  - sql
+  - e-commerce
+  archetype:
+  - pipeline
+  metric_type: reliability
+  recency_weight: 0.4
+  conversion_score: null
+  source_project: newcoolmex
+  verified: true
+- id: ncm-002
+  text: Built analytics workflows in Google Analytics, Ahrefs, SEMrush, Moz and Screaming
+    Frog to pull performance data and turn it into actionable recommendations.
+  tags:
+  - analytics
+  - reporting
+  - google-analytics
+  - data-driven
+  archetype:
+  - analytics
+  metric_type: autonomy
+  recency_weight: 0.4
+  conversion_score: null
+  source_project: newcoolmex
+  verified: true
+- id: ncm-003
+  text: Managed daily data loads and backup procedures on the backend CMS for over
+    three years with no data loss.
+  tags:
+  - database
+  - automation
+  - backup
+  - reliability
+  - sql
+  archetype:
+  - platform
+  metric_type: reliability
+  recency_weight: 0.4
+  conversion_score: null
+  source_project: newcoolmex
+  verified: true
+- id: alp-001
+  text: Pulled engagement data from Facebook, Instagram, Twitter and LinkedIn into
+    a single reporting pipeline so performance could be compared across channels in
+    one place.
+  tags:
+  - etl
+  - reporting
+  - analytics
+  - python
+  - data-consolidation
+  archetype:
+  - analytics
+  - pipeline
+  metric_type: autonomy
+  recency_weight: 0.3
+  conversion_score: null
+  source_project: alphacom
+  verified: true
+- id: alp-002
+  text: Produced Google Ads campaign reports that tracked conversion patterns and
+    gave clear recommendations on where to shift budget.
+  tags:
+  - analytics
+  - reporting
+  - google-ads
+  - data-driven
+  archetype:
+  - analytics
+  metric_type: efficiency
+  recency_weight: 0.3
+  conversion_score: null
+  source_project: alphacom
+  verified: true
+- id: arch-001
+  text: Used the same Bronze to Silver to Gold medallion pattern across both production
+    pipelines. Having a consistent architecture makes the code easier to extend and
+    debug.
+  tags:
+  - medallion
+  - architecture
+  - dbt
+  - postgresql
+  - snowflake
+  archetype:
+  - pipeline
+  - analytics
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-002
+  text: Both production pipelines run in Docker Compose with the same service structure
+    locally and in cloud environments. No more it works on my machine problems.
+  tags:
+  - docker
+  - docker-compose
+  - infrastructure
+  - airflow
+  - aws
+  archetype:
+  - cloud
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-003
+  text: Built REST API clients for Adzuna, Reed, Google Places and WordPress, each
+    with pagination, error recovery and rate-limit handling that writes clean output
+    to the bronze layer.
+  tags:
+  - rest-api
+  - python
+  - api-ingestion
+  - error-handling
+  - etl
+  archetype:
+  - pipeline
+  metric_type: scale
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-004
+  text: Built data quality enforcement into both pipelines as a standard stage rather
+    than an afterthought. Great Expectations validation and SHA-256 change detection
+    run automatically before data moves to the next layer.
+  tags:
+  - great-expectations
+  - data-quality
+  - sha256
+  - python
+  - postgresql
+  archetype:
+  - pipeline
+  - analytics
+  metric_type: reliability
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-005
+  text: All pipeline projects use structured Git commits and feature branches so there
+    is always a clean audit trail and rollback is straightforward if something breaks
+    in production.
+  tags:
+  - git
+  - github
+  - version-control
+  - devops
+  - collaboration
+  archetype:
+  - platform
+  - pipeline
+  metric_type: autonomy
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-006
+  text: Wrote the Terraform config to move the locally containerised Airflow pipelines
+    to AWS on EC2 and ECS with MWAA when the time comes.
+  tags:
+  - terraform
+  - aws
+  - iac
+  - ec2
+  - mwaa
+  - airflow
+  archetype:
+  - cloud
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-007
+  text: Integrated the Claude API in production for both NLP classification tasks
+    and cover letter generation. Using structured JSON mode so the output is reliable
+    enough to feed directly into downstream pipeline steps.
+  tags:
+  - claude-api
+  - llm
+  - python
+  - nlp
+  - ai-integration
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 1.0
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: arch-008
+  text: Externalised all API keys, score thresholds and notification settings into
+    YAML config files so swapping environments requires no code changes.
+  tags:
+  - yaml
+  - configuration
+  - python
+  - devops
+  - airflow
+  archetype:
+  - pipeline
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.95
+  conversion_score: null
+  source_project: cross-project
+  verified: true
+- id: cert-001
+  text: 'Microsoft Certified: Azure Administrator Associate — demonstrated competency
+    in Azure infrastructure management, identity, governance, and cloud resource provisioning'
+  tags:
+  - azure
+  - microsoft
+  - cloud
+  - certification
+  - infrastructure
+  archetype:
+  - cloud
+  metric_type: autonomy
+  recency_weight: 0.8
+  conversion_score: null
+  source_project: certifications
+  verified: true
+- id: cert-002
+  text: 'Microsoft Certified: Security Operations Analyst Associate — trained in threat
+    detection, incident response, and security monitoring across Microsoft security
+    toolchain'
+  tags:
+  - azure
+  - security
+  - microsoft
+  - certification
+  - monitoring
+  archetype:
+  - cloud
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.8
+  conversion_score: null
+  source_project: certifications
+  verified: true
+- id: cert-003
+  text: CompTIA Security+ Certified — validated baseline knowledge of network security,
+    cryptography, compliance, and operational security practices
+  tags:
+  - security
+  - certification
+  - networking
+  - compliance
+  archetype:
+  - platform
+  metric_type: autonomy
+  recency_weight: 0.8
+  conversion_score: null
+  source_project: certifications
+  verified: true
+- id: cert-004
+  text: Google Cloud Identity Certified — validated understanding of identity and
+    access management principles applicable to multi-cloud data platform governance
+  tags:
+  - gcp
+  - google-cloud
+  - iam
+  - certification
+  - cloud
+  archetype:
+  - cloud
+  metric_type: autonomy
+  recency_weight: 0.8
+  conversion_score: null
+  source_project: certifications
+  verified: true
 summaries:
-
   pipeline:
-    text: "Data Engineer specialising in production ETL/ELT pipeline engineering — building end-to-end systems that ingest, validate, and transform data at scale using Apache Airflow, Python, PostgreSQL, and Docker. Proven delivery of Medallion Architecture pipelines processing 9,600+ records daily at 98.25% quality, with full orchestration, data quality enforcement, and automated notification layers."
-    tags: [airflow, python, etl, postgresql, docker, medallion]
-
+    text: I build data pipelines that actually work in production. Over the past year
+      I have shipped end-to-end ETL and ELT systems on Airflow, PostgreSQL, Snowflake
+      and Docker that handle everything from raw API ingestion through to validated,
+      business-ready output. I care about data quality at every stage and I have implemented
+      Great Expectations validation and SHA-256 change detection in live pipelines.
+      My recent work at 10Alytics involved processing 9,600 energy meter records daily
+      at a 98.25% quality rate and building a 5-stage Airflow pipeline ingesting 797
+      job listings a day from two APIs with zero manual intervention.
+    tags:
+    - airflow
+    - python
+    - etl
+    - postgresql
+    - docker
+    - medallion
   analytics:
-    text: "Analytics Engineer with production experience on Snowflake and dbt Core — designing Medallion Architecture data models, authoring schema tests, and migrating pipelines between database platforms with zero data loss. Builds analytical layers that directly power business decisions, not just data stores."
-    tags: [dbt, snowflake, analytics, sql, medallion, data-modelling]
-
+    text: I work at the intersection of data modelling and pipeline engineering. I
+      have built Medallion Architecture models in dbt Core on Snowflake from scratch,
+      migrated an existing dbt project from PostgreSQL to Snowflake without data loss,
+      and written schema tests that run in CI with a 100% pass rate in production.
+      I think good analytics engineering means the data is trustworthy before it reaches
+      any dashboard, so I build quality checks and data contracts into the model layer
+      rather than leaving them as an afterthought.
+    tags:
+    - dbt
+    - snowflake
+    - analytics
+    - sql
+    - medallion
+    - data-modelling
   cloud:
-    text: "Data Engineer with hands-on cloud infrastructure experience across AWS and Azure — containerising pipeline stacks with Docker Compose, drafting Terraform IaC for EC2/ECS/MWAA deployment, and holding active Azure Administrator Associate certification. Builds cloud-native data systems designed for scalability from day one."
-    tags: [aws, azure, docker, terraform, cloud, airflow, ec2]
-
+    text: I design data systems with cloud deployment in mind from day one. My current
+      pipelines run fully containerised on Docker Compose with Terraform configuration
+      ready for AWS EC2 and ECS deployment via MWAA. I hold an active Azure Administrator
+      Associate certification and have hands-on experience with cloud identity, governance
+      and infrastructure provisioning. I am comfortable moving a locally built Airflow
+      pipeline into a production cloud environment and keeping it there reliably.
+    tags:
+    - aws
+    - azure
+    - docker
+    - terraform
+    - cloud
+    - airflow
+    - ec2
   platform:
-    text: "Data Platform Engineer experienced in building and operating the full data infrastructure stack — Airflow orchestration, PostgreSQL and Snowflake storage, Docker containerisation, and REST API integration layers. Delivers self-healing, observable pipelines with automated quality gates and notification systems."
-    tags: [airflow, postgresql, snowflake, docker, platform, orchestration]
-
-
-# =============================================================
-# METADATA
-# =============================================================
-
+    text: I build and run the full data infrastructure stack, not just individual
+      scripts. That means Airflow orchestration, PostgreSQL and Snowflake storage
+      layers, Docker containerisation, REST API clients with proper error handling
+      and retry logic, and automated quality gates that fire before bad data reaches
+      downstream consumers. Both of my current production projects run unattended
+      daily with Telegram alerts when something needs attention. I treat operability
+      as a first-class requirement, not a nice-to-have.
+    tags:
+    - airflow
+    - postgresql
+    - snowflake
+    - docker
+    - platform
+    - orchestration
 meta:
-  owner: "Abraham Aroloye"
-  email: "abrahamaroloye@gmail.com"
-  linkedin: "https://www.linkedin.com/in/abrahamaroloye/"
-  github: "https://github.com/Larious"
-  portfolio: "https://abrahamaroloye.com"
-  location: "Glasgow, Scotland, UK"
-  version: "1.0"
-  last_updated: "2026-05-03"
+  owner: Abraham Aroloye
+  email: abrahamaroloye@gmail.com
+  linkedin: https://www.linkedin.com/in/abrahamaroloye/
+  github: https://github.com/Larious
+  portfolio: https://abrahamaroloye.com
+  location: Glasgow, Scotland, UK
+  version: '1.0'
+  last_updated: '2026-05-03'
   total_bullets: 54
-  archetypes: [pipeline, analytics, cloud, platform]
-  metric_types: [scale, reliability, efficiency, autonomy]
+  archetypes:
+  - pipeline
+  - analytics
+  - cloud
+  - platform
+  metric_types:
+  - scale
+  - reliability
+  - efficiency
+  - autonomy

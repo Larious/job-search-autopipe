@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  @page {
+    size: A4;
+    margin: 14mm 13mm 13mm 13mm;
+  }
+
+  html { font-size: 10pt; }
+  body {
+    font-family: Arial, Helvetica, sans-serif;
+    color: #1a1a1a;
+    background: #fff;
+    line-height: 1.42;
+  }
+
+  /* Archetype accent colours */
+  .accent-pipeline  { color: #1a3a5c; }
+  .accent-analytics { color: #0d6b6b; }
+  .accent-cloud     { color: #1e3a6e; }
+  .accent-platform  { color: #2d2d2d; }
+  .border-pipeline  { border-color: #1a3a5c; }
+  .border-analytics { border-color: #0d6b6b; }
+  .border-cloud     { border-color: #1e3a6e; }
+  .border-platform  { border-color: #2d2d2d; }
+
+  /* Header */
+  .header { text-align: center; padding-bottom: 9px; margin-bottom: 9px; border-bottom: 2px solid; }
+  .header h1 { font-size: 19pt; font-weight: 700; letter-spacing: 0.4px; margin-bottom: 4px; }
+  .contact-line { font-size: 8pt; color: #333; }
+  .contact-line a { color: inherit; text-decoration: none; }
+  .contact-line span { margin: 0 4px; color: #bbb; }
+
+  .archetype-badge {
+    display: inline-block; font-size: 6.5pt; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 1.5px;
+    padding: 2px 8px; border-radius: 2px; color: #fff; margin-top: 4px;
+  }
+  .badge-pipeline  { background: #1a3a5c; }
+  .badge-analytics { background: #0d6b6b; }
+  .badge-cloud     { background: #1e3a6e; }
+  .badge-platform  { background: #2d2d2d; }
+
+  /* Section titles */
+  .section-title {
+    font-size: 8pt; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1.2px; border-bottom: 1px solid;
+    padding-bottom: 2px; margin-top: 10px; margin-bottom: 5px;
+  }
+
+  /* Summary */
+  .summary p { font-size: 8.8pt; color: #2c2c2c; line-height: 1.52; }
+
+  /* Skills grid */
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2px 14px; }
+  .skill-row { font-size: 8pt; line-height: 1.5; }
+  .skill-label { font-weight: 700; }
+
+  /* Jobs */
+  .job { margin-bottom: 8px; }
+  .job-header { display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; margin-bottom: 2px; }
+  .job-title { font-size: 9pt; font-weight: 700; }
+  .job-company { font-size: 8.5pt; font-weight: 600; }
+  .job-meta { font-size: 8pt; color: #555; font-style: italic; white-space: nowrap; }
+  .job ul { margin-left: 13px; }
+  .job ul li { font-size: 8pt; margin-bottom: 2px; line-height: 1.44; }
+
+  /* Education & Certs */
+  .edu-row { font-size: 8.8pt; margin-bottom: 3px; }
+  .cert-row { font-size: 8pt; margin-bottom: 2px; display: flex; gap: 4px; align-items: baseline; }
+
+  /* Hidden ATS block — placed inside HTML comment, not visible text */
+</style>
+</head>
+<body>
+
+<!-- ATS:{{ ats_keywords }} -->
+
+<!-- HEADER -->
+<div class="header border-{{ archetype }}">
+  <h1 class="accent-{{ archetype }}">{{ meta.owner }}</h1>
+  <div class="contact-line">
+    <a href="mailto:{{ meta.email }}">{{ meta.email }}</a>
+    <span>|</span>
+    <a href="{{ meta.linkedin }}">linkedin.com/in/abrahamaroloye</a>
+    <span>|</span>
+    <a href="{{ meta.github }}">github.com/Larious</a>
+    <span>|</span>
+    <a href="{{ meta.portfolio }}">abrahamaroloye.com</a>
+    <span>|</span>
+    {{ meta.location }}
+  </div>
+  <div><span class="archetype-badge badge-{{ archetype }}">Data Engineer</span></div>
+</div>
+
+<!-- SUMMARY -->
+<div class="section-title accent-{{ archetype }} border-{{ archetype }}">Professional Summary</div>
+<div class="summary"><p>{{ summary }}</p></div>
+
+<!-- SKILLS -->
+<div class="section-title accent-{{ archetype }} border-{{ archetype }}">Technical Skills</div>
+<div class="skills-grid">
+  <div class="skill-row"><span class="skill-label">Languages:</span> Python 3, SQL, YAML, Bash</div>
+  <div class="skill-row"><span class="skill-label">Orchestration:</span> Apache Airflow, DAGs, ETL/ELT pipelines</div>
+  <div class="skill-row"><span class="skill-label">Data Transformation:</span> dbt Core, Medallion Architecture</div>
+  <div class="skill-row"><span class="skill-label">Databases:</span> PostgreSQL, Snowflake, Databricks, JSONB</div>
+  <div class="skill-row"><span class="skill-label">Cloud:</span> AWS (EC2, ECS, MWAA), Microsoft Azure</div>
+  <div class="skill-row"><span class="skill-label">Infrastructure:</span> Docker, Docker Compose, Terraform, Git</div>
+  <div class="skill-row"><span class="skill-label">Big Data:</span> Apache Spark, Apache Kafka</div>
+  <div class="skill-row"><span class="skill-label">Data Quality:</span> Great Expectations, SHA-256 detection</div>
+  <div class="skill-row"><span class="skill-label">APIs &amp; Integrations:</span> REST, Google Places, Telegram Bot, Claude API</div>
+  <div class="skill-row"><span class="skill-label">Analytics:</span> Google Analytics, Google Tag Manager, Meta Pixel</div>
+</div>
+
+<!-- EXPERIENCE -->
+<div class="section-title accent-{{ archetype }} border-{{ archetype }}">Professional Experience</div>
+
+{% for job in jobs %}
+<div class="job">
+  <div class="job-header">
+    <div>
+      <span class="job-title">{{ job.title }}</span>
+      <span style="color:#888;font-size:8.5pt;"> — </span>
+      <span class="job-company accent-{{ archetype }}">{{ job.company }}</span>
+    </div>
+    <div class="job-meta">{{ job.dates }}</div>
+  </div>
+  <ul>
+    {% for bullet in job.bullets %}
+    <li>{{ bullet }}</li>
+    {% endfor %}
+  </ul>
+</div>
+{% endfor %}
+
+<!-- EDUCATION -->
+<div class="section-title accent-{{ archetype }} border-{{ archetype }}">Education</div>
+<div class="edu-row">
+  <strong>Bachelor of Science in Computer Science</strong><br>
+  <span style="color:#444;">Caleb University, Lagos, Nigeria</span>
+  <span style="color:#777; font-style:italic;"> &nbsp;|&nbsp; May 2011 – July 2014</span>
+</div>
+
+<!-- CERTIFICATIONS -->
+<div class="section-title accent-{{ archetype }} border-{{ archetype }}">Certifications</div>
+<div class="cert-row"><span class="accent-{{ archetype }}">▸</span> Microsoft Certified: Azure Administrator Associate</div>
+<div class="cert-row"><span class="accent-{{ archetype }}">▸</span> Microsoft Certified: Security Operations Analyst Associate</div>
+<div class="cert-row"><span class="accent-{{ archetype }}">▸</span> CompTIA Security+ ce Certification</div>
+<div class="cert-row"><span class="accent-{{ archetype }}">▸</span> Google Cloud Identity Certified</div>
+
+</body>
+</html>
